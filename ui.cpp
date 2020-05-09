@@ -7,7 +7,7 @@
 #include <vector>
 #include <algorithm>
 #include "string_functions.h"
-
+/**
 using namespace std;
 
 UI::UI(Service* service) {
@@ -250,3 +250,4 @@ void UI::run() {
 	}
 
 }
+**/

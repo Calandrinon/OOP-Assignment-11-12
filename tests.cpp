@@ -6,7 +6,7 @@
 #include "string_functions.h"
 using namespace std;
 
-
+/**
 Tests::Tests() {
 	test_recording_getters();
 	test_recording_setters();
@@ -631,3 +631,4 @@ void Tests::testServiceUpdateWithFileRepo__existentItem__updatedItem() {
     assert(updated_element == "1, a, 01-01-2001, 1, test2.mp1");
 }
 
+**/

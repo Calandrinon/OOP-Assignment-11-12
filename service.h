@@ -20,7 +20,7 @@ class Service {
 		void remove(string title);
 		bool search(string title);
 		string next();
-		void save();
+        void save(string title);
 		vector<Recording> get_watchlist();
 		void update(string title, string location, string time_of_creation, string times_accessed, string footage_preview);
 		vector<Recording> get_repository_container();

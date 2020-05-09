@@ -134,11 +134,11 @@ string Service::next() {
 }
 
 
-void Service::save() {
+void Service::save(string title) {
     if (!has_file_repository)
-	    repository->save();
+        repository->save(title);
     else
-        file_repository->save();
+        file_repository->save();  /// has to be fixed
 }
 
 

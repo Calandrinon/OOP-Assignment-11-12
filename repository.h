@@ -17,7 +17,7 @@ class Repository {
         virtual void remove(string title) = 0;
         virtual vector<Recording> get_watchlist() = 0;
         virtual string next() = 0;
-        virtual void save() = 0;
+        virtual void save(string title) = 0;
         virtual ~Repository() {}
 };
 
@@ -32,7 +32,7 @@ class MemoryRepository: public Repository {
 		vector<Recording> get_container();
 		void remove(string title);
 		string next();
-		void save();
+        void save(string title);
 		vector<Recording> get_watchlist();
 		bool search(string title);
 		~MemoryRepository();

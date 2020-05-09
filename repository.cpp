@@ -61,12 +61,13 @@ string MemoryRepository::next() {
 }
 
 
-void MemoryRepository::save() {
-	if (selected_recording >= container.size()) {
-		IndexError ie("IndexError: You haven't added any recordings!\n");
-		throw ie;
-	}
-	watch_list.push_back(container[selected_recording]);
+void MemoryRepository::save(string title) {
+    for (auto item: container) {
+        if (item.get_title() == title) {
+            watch_list.push_back(item);
+            break;
+        }
+    }
 }
 
 

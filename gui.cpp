@@ -22,7 +22,7 @@ void GUI::initGUI() {
 
 
     QLabel* playlist_label = new QLabel("Playlist:");
-    QListWidget* playlist_widget = new QListWidget();
+    this->playlist_widget = new QListWidget();
     playlist_layout->addWidget(playlist_label);
     playlist_layout->addWidget(playlist_widget);
 
@@ -99,6 +99,8 @@ void GUI::connect_signals_and_slots() {
     QObject::connect(this->update_button, &QPushButton::clicked, this, &GUI::update_recording_button_handler);
 
     QObject::connect(this->delete_button, &QPushButton::clicked, this, &GUI::delete_recording_button_handler);
+
+    QObject::connect(this->add_to_playlist_button, &QPushButton::clicked, this, &GUI::save_recording_button_handler);
 }
 
 
@@ -159,6 +161,25 @@ void GUI::delete_recording_button_handler() {
 }
 
 
+void GUI::save_recording_button_handler() {
+    string title = this->title_edit->text().toStdString();
+    string location = this->location_edit->text().toStdString();
+    string time_of_creation = this->time_of_creation_edit->text().toStdString();
+    string times_accessed = this->times_accessed_edit->text().toStdString();
+    string footage_preview = this->footage_preview_edit->text().toStdString();
+
+    try {
+        string message =  title + " " + location + " " + time_of_creation + " " + times_accessed + " " +footage_preview;
+        qDebug() << QString::fromStdString(message);
+        service->save(title);
+    } catch (...) {
+
+    }
+
+    this->add_recordings_to_playlist();
+}
+
+
 void GUI::add_recordings_to_list_widget() {
     if (this->recordings_list->count() > 0) {
         this->recordings_list->clear();
@@ -177,6 +198,27 @@ void GUI::add_recordings_to_list_widget() {
         this->recordings_list->setCurrentRow(0);
     }
 }
+
+
+void GUI::add_recordings_to_playlist() {
+    if (this->playlist_widget->count() > 0) {
+        this->playlist_widget->clear();
+    }
+
+    vector<Recording> watchlist = service->get_watchlist();
+
+    for (auto recording: watchlist) {
+        string recording_as_string = recording.get_title() + "; " + recording.get_location() + "; " + recording.get_time_of_creation() + "; " + std::to_string(recording.get_times_accessed()) + "; " + recording.get_footage_preview();
+        QString item_in_list = QString::fromStdString(recording_as_string);
+        QListWidgetItem* playlist_item= new QListWidgetItem(item_in_list);
+        this->playlist_widget->addItem(playlist_item);
+    }
+
+    if (this->playlist_widget->count() > 0) {
+        this->playlist_widget->setCurrentRow(0);
+    }
+}
+
 
 
 int GUI::get_current_index()
