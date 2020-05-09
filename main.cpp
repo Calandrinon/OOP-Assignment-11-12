@@ -3,19 +3,19 @@
 #include "ui.h"
 //#include <crtdbg.h>
 #include "gui.h"
+#include <memory>
 #include <QApplication>
+using namespace std;
 
 int main(int argc, char *argv[])
 {
     //Tests();
     QApplication a(argc, argv);
-    Repository* repository = new MemoryRepository();
-    Service* service = new Service(repository);
-    GUI gui(service);
+    MemoryRepository repository;
+    Service service(&repository);
+    GUI gui(&service);
     gui.show();
 
-    delete repository;
-    delete service;
     //_CrtDumpMemoryLeaks();
     return a.exec();
 }

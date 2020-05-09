@@ -4,12 +4,13 @@
 #include "repository.h"
 #include "recording.h"
 #include "validator.h"
+#include <memory>
 using namespace std;
 
 class Service {
 	private:
-		MemoryRepository* repository;
-		FileRepository* file_repository;
+        MemoryRepository* repository;
+        FileRepository* file_repository;
 		Validator validator;
 		bool has_file_repository;
 

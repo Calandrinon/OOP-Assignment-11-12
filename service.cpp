@@ -2,6 +2,7 @@
 #include "myexceptions.h"
 #include "recording.h"
 #include "service.h"
+#include <QDebug>
 using namespace std;
 
 Service::Service(Repository* repository) {
@@ -10,6 +11,7 @@ Service::Service(Repository* repository) {
     if (memory_repository) {
         this->repository = memory_repository;
         this->has_file_repository = false;
+        qDebug() << "It is a memory repository!";
     } else {
         this->file_repository = dynamic_cast<FileRepository*>(repository);
         this->has_file_repository = true;
@@ -40,11 +42,11 @@ void Service::add(string title, string location, string time_of_creation, string
 	validator.validate_times_accessed(times_accessed);
 
 	Recording recording(title, location, time_of_creation, stoi(times_accessed), footage_preview);
-	if (!has_file_repository) {
+    if (!has_file_repository) {
         repository->add(recording);
-	} else {
-	    file_repository->add(recording);
-	}
+    } else {
+        file_repository->add(recording);
+    }
 }
 
 

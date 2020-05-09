@@ -4,8 +4,8 @@
 using namespace std;
 
 GUI::GUI(Service* _service, QWidget *parent) :
-    service(_service),
-    QWidget(parent)
+    QWidget(parent),
+  service(_service)
 {
     this->initGUI();
     this->connect_signals_and_slots();
@@ -78,8 +78,9 @@ void GUI::add_recording_button_handler() {
     string times_accessed = this->times_accessed_edit->text().toStdString();
     string footage_preview = this->footage_preview_edit->text().toStdString();
     try {
-        qDebug() << "Adding element...";
-        service->add(title, location, time_of_creation, times_accessed, footage_preview);
+        string message =  title + " " + location + " " + time_of_creation + " " + times_accessed + " " +footage_preview;
+        qDebug() << QString::fromStdString(message);
+        service->add(this->title_edit->text().toStdString(), location, time_of_creation, times_accessed, footage_preview);
     } catch (...) {
 
     }
