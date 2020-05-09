@@ -15,8 +15,25 @@ GUI::GUI(Service* _service, QWidget *parent) :
 void GUI::initGUI() {
     QHBoxLayout* main_layout = new QHBoxLayout(this);
     QVBoxLayout* element_addition_layout = new QVBoxLayout();
+    QVBoxLayout* queue_button_layout = new QVBoxLayout();
+    QVBoxLayout* playlist_layout = new QVBoxLayout();
     QFormLayout* element_addition_form = new QFormLayout();
     QGridLayout* buttons_layout = new QGridLayout();
+
+
+    QLabel* playlist_label = new QLabel("Playlist:");
+    QListWidget* playlist_widget = new QListWidget();
+    playlist_layout->addWidget(playlist_label);
+    playlist_layout->addWidget(playlist_widget);
+
+    QString next_text("Next");
+    this->next_button = new QPushButton(next_text);
+    playlist_layout->addWidget(next_button);
+
+    QString play_text("Play");
+    this->play_button = new QPushButton(play_text);
+    playlist_layout->addWidget(play_button);
+
 
     QString add_text("Add");
     this->add_button = new QPushButton(add_text);
@@ -29,6 +46,10 @@ void GUI::initGUI() {
     QString delete_text("Delete");
     this->delete_button = new QPushButton(delete_text);
     buttons_layout->addWidget(delete_button, 1, 3);
+
+    QString add_to_playlist_text(">> Save >>");
+    this->add_to_playlist_button = new QPushButton(add_to_playlist_text);
+    queue_button_layout->addWidget(add_to_playlist_button);
 
 
 
@@ -63,6 +84,8 @@ void GUI::initGUI() {
     element_addition_layout->addLayout(element_addition_form);
     element_addition_layout->addLayout(buttons_layout);
     main_layout->addLayout(element_addition_layout);
+    main_layout->addLayout(queue_button_layout);
+    main_layout->addLayout(playlist_layout);
 }
 
 
