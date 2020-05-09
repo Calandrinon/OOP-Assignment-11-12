@@ -67,7 +67,11 @@ void GUI::initGUI() {
 
 
 void GUI::connect_signals_and_slots() {
+    /// Connects the add button to its corresponding handler
     QObject::connect(this->add_button, &QPushButton::clicked, this, &GUI::add_recording_button_handler);
+
+    /// Changes the text in the line edits whenever a list widget item is selected
+    QObject::connect(this->recordings_list, &QListWidget::itemSelectionChanged, this, &GUI::update_line_edits);
 }
 
 
@@ -77,13 +81,15 @@ void GUI::add_recording_button_handler() {
     string time_of_creation = this->time_of_creation_edit->text().toStdString();
     string times_accessed = this->times_accessed_edit->text().toStdString();
     string footage_preview = this->footage_preview_edit->text().toStdString();
+
     try {
         string message =  title + " " + location + " " + time_of_creation + " " + times_accessed + " " +footage_preview;
         qDebug() << QString::fromStdString(message);
-        service->add(this->title_edit->text().toStdString(), location, time_of_creation, times_accessed, footage_preview);
+        service->add(title, location, time_of_creation, times_accessed, footage_preview);
     } catch (...) {
 
     }
+
     this->add_recordings_to_list_widget();
 }
 
@@ -96,7 +102,7 @@ void GUI::add_recordings_to_list_widget() {
     vector<Recording> container = service->get_repository_container();
 
     for (auto recording: container) {
-        string recording_as_string = recording.get_title() + ";" + recording.get_location() + ";" + recording.get_time_of_creation() + ";" + std::to_string(recording.get_times_accessed()) + ";" + recording.get_footage_preview();
+        string recording_as_string = recording.get_title() + "; " + recording.get_location() + "; " + recording.get_time_of_creation() + "; " + std::to_string(recording.get_times_accessed()) + "; " + recording.get_footage_preview();
         QString item_in_list = QString::fromStdString(recording_as_string);
         QListWidgetItem* recording_list_item = new QListWidgetItem(item_in_list);
         this->recordings_list->addItem(recording_list_item);
@@ -105,6 +111,49 @@ void GUI::add_recordings_to_list_widget() {
     if (this->recordings_list->count() > 0) {
         this->recordings_list->setCurrentRow(0);
     }
+}
+
+
+int GUI::get_current_index()
+{
+    if (this->recordings_list->count() == 0)
+        return -1;
+
+    // get selected index
+    QModelIndexList index = this->recordings_list->selectionModel()->selectedIndexes();
+    if (index.size() == 0)
+    {
+        this->title_edit->clear();
+        this->location_edit->clear();
+        this->time_of_creation_edit->clear();
+        this->times_accessed_edit->clear();
+        this->footage_preview_edit->clear();
+        return -1;
+    }
+
+    int idx = index.at(0).row();
+    return idx;
+}
+
+
+void GUI::update_line_edits() {
+    vector<Recording> container = service->get_repository_container();
+    int item_index = this->get_current_index();
+
+    if (item_index == -1) {
+        return;
+    }
+
+    if (item_index >= container.size()) {
+        return;
+    }
+
+    Recording recording = container[item_index];
+    this->title_edit->setText(QString::fromStdString(recording.get_title()));
+    this->location_edit->setText(QString::fromStdString(recording.get_location()));
+    this->time_of_creation_edit->setText(QString::fromStdString(recording.get_time_of_creation()));
+    this->times_accessed_edit->setText(QString::fromStdString(std::to_string(recording.get_times_accessed())));
+    this->footage_preview_edit->setText(QString::fromStdString(recording.get_footage_preview()));
 }
 
 

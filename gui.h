@@ -21,6 +21,8 @@ public:
     void connect_signals_and_slots();
     void add_recording_button_handler();
     void add_recordings_to_list_widget();
+    void update_line_edits();
+    int get_current_index();
     ~GUI();
 
 private:
