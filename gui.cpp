@@ -74,6 +74,8 @@ void GUI::connect_signals_and_slots() {
     QObject::connect(this->recordings_list, &QListWidget::itemSelectionChanged, this, &GUI::update_line_edits);
 
     QObject::connect(this->update_button, &QPushButton::clicked, this, &GUI::update_recording_button_handler);
+
+    QObject::connect(this->delete_button, &QPushButton::clicked, this, &GUI::delete_recording_button_handler);
 }
 
 
@@ -107,6 +109,25 @@ void GUI::update_recording_button_handler() {
         string message =  title + " " + location + " " + time_of_creation + " " + times_accessed + " " +footage_preview;
         qDebug() << QString::fromStdString(message);
         service->update(title, location, time_of_creation, times_accessed, footage_preview);
+    } catch (...) {
+
+    }
+
+    this->add_recordings_to_list_widget();
+}
+
+
+void GUI::delete_recording_button_handler() {
+    string title = this->title_edit->text().toStdString();
+    string location = this->location_edit->text().toStdString();
+    string time_of_creation = this->time_of_creation_edit->text().toStdString();
+    string times_accessed = this->times_accessed_edit->text().toStdString();
+    string footage_preview = this->footage_preview_edit->text().toStdString();
+
+    try {
+        string message =  title + " " + location + " " + time_of_creation + " " + times_accessed + " " +footage_preview;
+        qDebug() << QString::fromStdString(message);
+        service->remove(title);
     } catch (...) {
 
     }
