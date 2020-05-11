@@ -9,6 +9,19 @@ GUI::GUI(Service* _service, QWidget *parent) :
 {
     this->initGUI();
     this->connect_signals_and_slots();
+
+    /// The 10 items used for debugging
+    service->add("1", "1", "01-01-2001", "1", "1.mp1");
+    service->add("2", "2", "02-02-2002", "2", "2.mp2");
+    service->add("3", "3", "03-03-2003", "3", "3.mp3");
+    service->add("4", "4", "04-04-2004", "4", "4.mp4");
+    service->add("5", "5", "04-04-2004", "5", "5.mp4");
+    service->add("6", "6", "04-04-2004", "6", "6.mp4");
+    service->add("7", "7", "04-04-2004", "7", "7.mp4");
+    service->add("8", "8", "04-04-2004", "8", "8.mp4");
+    service->add("9", "9", "04-04-2004", "9", "9.mp4");
+    service->add("10", "10", "04-04-2004", "10", "10.mp4");
+    this->add_recordings_to_list_widget();
 }
 
 
@@ -101,6 +114,8 @@ void GUI::connect_signals_and_slots() {
     QObject::connect(this->delete_button, &QPushButton::clicked, this, &GUI::delete_recording_button_handler);
 
     QObject::connect(this->add_to_playlist_button, &QPushButton::clicked, this, &GUI::save_recording_button_handler);
+
+    //QObject::connect(this->playlist_widget, &QListWidget::itemSelectionChanged, this, &GUI::update_current_recording);
 }
 
 
@@ -243,6 +258,23 @@ int GUI::get_current_index()
 }
 
 
+int GUI::get_current_playlist_index()
+{
+    if (this->playlist_widget->count() == 0)
+        return -1;
+
+    // get selected index
+    QModelIndexList index = this->playlist_widget->selectionModel()->selectedIndexes();
+    if (index.size() == 0)
+    {
+        return -1;
+    }
+
+    int idx = index.at(0).row();
+    return idx;
+}
+
+
 void GUI::update_line_edits() {
     vector<Recording> container = service->get_repository_container();
     int item_index = this->get_current_index();
@@ -264,6 +296,31 @@ void GUI::update_line_edits() {
 }
 
 
+void GUI::update_current_recording() {
+    vector<Recording> watchlist = service->get_watchlist();
+    int current_index = this->get_current_playlist_index();
+
+    try {
+    qDebug() << QString::fromStdString(watchlist[current_index].get_title());
+    } catch (...) {
+
+    }
+}
+
+
 GUI::~GUI()
 {
+    delete playlist_widget;
+    delete next_button;
+    delete play_button;
+    delete add_button;
+    delete update_button;
+    delete delete_button;
+    delete add_to_playlist_button;
+    delete recordings_list;
+    delete title_edit;
+    delete location_edit;
+    delete time_of_creation_edit;
+    delete times_accessed_edit;
+    delete footage_preview_edit;
 }

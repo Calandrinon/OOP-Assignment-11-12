@@ -26,7 +26,9 @@ public:
     void add_recordings_to_playlist();
     void save_recording_button_handler();
     void update_line_edits();
+    int get_current_playlist_index();
     int get_current_index();
+    void update_current_recording();
     ~GUI();
 
 private:
