@@ -199,7 +199,7 @@ bool FileRepository::search(string title) {
     ifstream in(filename);
 
     while (getline(in, element)) {
-        vector<string> tokens = tokenize(element, ',');
+        vector<string> tokens = StringFunctions::tokenize(element, ',');
         if (tokens[0] == title) {
             return true;
         }
@@ -235,7 +235,7 @@ string FileRepository::next() {
 }
 
 
-void FileRepository::save() {
+void FileRepository::save(string title) {
     if (selected_recording >= number_of_elements) {
         IndexError ie("IndexError: You haven't added any recordings!\n");
         throw ie;
@@ -246,11 +246,12 @@ void FileRepository::save() {
     unsigned int counter = 0;
 
     while (getline(in, element)) {
-        if (counter == selected_recording) {
-            vector<string> tokens = tokenize(element, ',');
+        vector<string> tokens = StringFunctions::tokenize(element, ',');
 
-            int times_accessed = stoi(tokens[3]);
-            Recording recording(tokens[0], tokens[1], tokens[2], times_accessed, tokens[4]);
+        int times_accessed = stoi(tokens[3]);
+        Recording recording(tokens[0], tokens[1], tokens[2], times_accessed, tokens[4]);
+
+        if (recording.get_title() == title) {
             watch_list.push_back(recording);
 
             if (watchlist_filename.find(".html") != std::string::npos) {
@@ -259,10 +260,26 @@ void FileRepository::save() {
                 update_watchlist_csv_file();
             }
 
-            return;
+            counter++;
         }
-        counter++;
     }
+}
+
+
+vector<Recording> FileRepository::get_container() {
+    vector<Recording> container;
+    string element;
+    ifstream in(filename);
+
+    while (getline(in, element)) {
+        vector<string> tokens = StringFunctions::tokenize(element, ',');
+
+        int times_accessed = stoi(tokens[3]);
+        Recording recording(tokens[0], tokens[1], tokens[2], times_accessed, tokens[4]);
+        container.push_back(recording);
+    }
+
+    return container;
 }
 
 

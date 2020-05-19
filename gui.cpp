@@ -115,7 +115,7 @@ void GUI::connect_signals_and_slots() {
 
     QObject::connect(this->add_to_playlist_button, &QPushButton::clicked, this, &GUI::save_recording_button_handler);
 
-    //QObject::connect(this->playlist_widget, &QListWidget::itemSelectionChanged, this, &GUI::update_current_recording);
+    QObject::connect(this->playlist_widget, &QListWidget::itemSelectionChanged, this, &GUI::update_current_recording);
 }
 
 

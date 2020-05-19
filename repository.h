@@ -19,6 +19,7 @@ class Repository {
         virtual string next() = 0;
         virtual void save(string title) = 0;
         virtual ~Repository() {}
+        virtual void set_current_recording(int position) {selected_recording = position;};
 };
 
 
@@ -49,7 +50,7 @@ class FileRepository: public Repository {
         void add(Recording r);
         void remove(string title);
         string next();
-        void save();
+        void save(string title);
         vector<Recording> get_watchlist();
         bool search(string title);
         string get_filename();
@@ -60,7 +61,8 @@ class FileRepository: public Repository {
         std::string strip(std::string str);
         int get_number_of_elements();
         void update_watchlist_html_file();
-        void update_watchlist_csv_file();
+        void update_watchlist_csv_file(); 
+        vector<Recording> get_container();
         friend ostream& operator<<(ostream& out, Recording& recording);
 
         ~FileRepository();

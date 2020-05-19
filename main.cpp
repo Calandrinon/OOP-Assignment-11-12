@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
 {
     //Tests();
     QApplication a(argc, argv);
-    MemoryRepository repository;
+    FileRepository repository("in.in");
     Service service(&repository);
     GUI gui(&service);
     gui.show();

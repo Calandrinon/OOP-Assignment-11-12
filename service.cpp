@@ -57,10 +57,9 @@ vector<Recording> Service::get_repository_container() {
 	 **/
     if (!has_file_repository) {
         return repository->get_container();
+    } else {
+        return file_repository->get_container();
     }
-
-    vector<Recording> error;
-    return error; //this was written to avoid compiler warnings about "non-void function which returns nothing".
 }
 
 
@@ -138,7 +137,16 @@ void Service::save(string title) {
     if (!has_file_repository)
         repository->save(title);
     else
-        file_repository->save();  /// has to be fixed
+        file_repository->save(title);  /// has to be fixed
+}
+
+
+void Service::set_current_recording(int position) {
+    if (!has_file_repository) {
+        repository->set_current_recording(position);
+    } else {
+        file_repository->set_current_recording(position);
+    }
 }
 
 

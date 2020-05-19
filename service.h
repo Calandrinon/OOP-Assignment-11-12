@@ -28,5 +28,6 @@ class Service {
 		string get_file_repository_filename();
 		void set_file_repository_filename(string new_filename);
         void set_watchlist_filename(string file_path);
-		~Service();
+        void set_current_recording(int position);
+        ~Service();
 };
