@@ -28,7 +28,8 @@ public:
     void update_line_edits();
     int get_current_playlist_index();
     int get_current_index();
-    void update_current_recording();
+    void update_current_recording(); 
+    void next_recording_button_handler();
     ~GUI();
 
 private:

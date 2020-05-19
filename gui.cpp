@@ -116,6 +116,8 @@ void GUI::connect_signals_and_slots() {
     QObject::connect(this->add_to_playlist_button, &QPushButton::clicked, this, &GUI::save_recording_button_handler);
 
     QObject::connect(this->playlist_widget, &QListWidget::itemSelectionChanged, this, &GUI::update_current_recording);
+
+    QObject::connect(this->next_button, &QPushButton::clicked, this, &GUI::next_recording_button_handler);
 }
 
 
@@ -310,6 +312,18 @@ void GUI::update_current_recording() {
     } catch (...) {
 
     }
+}
+
+
+void GUI::next_recording_button_handler() {
+    int current_index = this->get_current_playlist_index();
+    service->next();
+    if (playlist_widget->count() == current_index + 1) {
+        playlist_widget->setCurrentRow(0);
+    } else {
+        playlist_widget->setCurrentRow(current_index+1);
+    }
+    qDebug() << current_index;
 }
 
 
