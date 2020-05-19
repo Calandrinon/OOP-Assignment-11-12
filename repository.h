@@ -20,6 +20,7 @@ class Repository {
         virtual void save(string title) = 0;
         virtual ~Repository() {}
         virtual void set_current_recording(int position) {selected_recording = position;};
+        virtual void remove_from_watchlist(int element_index) = 0;
 };
 
 
@@ -36,7 +37,8 @@ class MemoryRepository: public Repository {
         void save(string title);
 		vector<Recording> get_watchlist();
 		bool search(string title);
-		~MemoryRepository();
+        void remove_from_watchlist(int element_index);
+        ~MemoryRepository();
 };
 
 
@@ -63,7 +65,8 @@ class FileRepository: public Repository {
         void update_watchlist_html_file();
         void update_watchlist_csv_file(); 
         vector<Recording> get_container();
-        friend ostream& operator<<(ostream& out, Recording& recording);
+        friend ostream& operator<<(ostream& out, Recording& recording); 
+        void remove_from_watchlist(int element_index);
 
         ~FileRepository();
 };

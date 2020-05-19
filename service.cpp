@@ -176,3 +176,12 @@ void Service::set_watchlist_filename(string file_path) {
         file_repository->update_watchlist_csv_file();
     }
 }
+
+
+void Service::remove_from_watchlist(int element_index) {
+    if (!has_file_repository) {
+        repository->remove_from_watchlist(element_index);
+    } else {
+        file_repository->remove_from_watchlist(element_index);
+    }
+}

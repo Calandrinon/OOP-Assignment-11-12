@@ -1,6 +1,7 @@
 #include "repository.h"
 #include "myexceptions.h"
 #include "string_functions.h"
+#include <QDebug>
 #include <string>
 
 MemoryRepository::MemoryRepository() {
@@ -36,6 +37,11 @@ void MemoryRepository::remove(string title) {
 
 
 MemoryRepository::~MemoryRepository() {
+}
+
+
+void MemoryRepository::remove_from_watchlist(int element_index) {
+    watch_list.erase(watch_list.begin()+element_index);
 }
 
 
@@ -108,6 +114,21 @@ vector<string> FileRepository::tokenize(std::string line, char delimiter) {
     }
 
     return tokens;
+}
+
+
+void FileRepository::remove_from_watchlist(int element_index) {
+    watch_list.erase(watch_list.begin()+element_index);
+
+    for (auto element: watch_list) {
+        qDebug() << QString::fromStdString(element.get_as_string());
+    }
+
+    if (watchlist_filename.find(".html") != std::string::npos) {
+        update_watchlist_html_file();
+    } else {
+        update_watchlist_csv_file();
+    }
 }
 
 
@@ -233,6 +254,8 @@ string FileRepository::next() {
 
     return "Element not found!";
 }
+
+
 
 
 void FileRepository::save(string title) {

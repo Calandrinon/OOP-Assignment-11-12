@@ -22,6 +22,7 @@ GUI::GUI(Service* _service, QWidget *parent) :
     service->add("9", "9", "04-04-2009", "9", "9.mp4");
     service->add("10", "10", "04-04-2010", "10", "10.mp4");
     this->add_recordings_to_list_widget();
+    service->set_watchlist_filename("myhtml.html");
 }
 
 
@@ -118,6 +119,8 @@ void GUI::connect_signals_and_slots() {
     QObject::connect(this->playlist_widget, &QListWidget::itemSelectionChanged, this, &GUI::update_current_recording);
 
     QObject::connect(this->next_button, &QPushButton::clicked, this, &GUI::next_recording_button_handler);
+
+    QObject::connect(this->play_button, &QPushButton::clicked, this, &GUI::play_recording_button_handler);
 }
 
 
@@ -324,6 +327,14 @@ void GUI::next_recording_button_handler() {
         playlist_widget->setCurrentRow(current_index+1);
     }
     qDebug() << current_index;
+}
+
+
+void GUI::play_recording_button_handler() {
+    int current_index = this->get_current_index();
+    vector<Recording> watchlist = service->get_watchlist();
+    service->remove_from_watchlist(current_index);
+    add_recordings_to_playlist();
 }
 
 

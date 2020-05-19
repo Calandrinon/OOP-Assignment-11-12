@@ -30,6 +30,7 @@ public:
     int get_current_index();
     void update_current_recording(); 
     void next_recording_button_handler();
+    void play_recording_button_handler();
     ~GUI();
 
 private:

@@ -29,5 +29,6 @@ class Service {
 		void set_file_repository_filename(string new_filename);
         void set_watchlist_filename(string file_path);
         void set_current_recording(int position);
+        void remove_from_watchlist(int element_index);
         ~Service();
 };
