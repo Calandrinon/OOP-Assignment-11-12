@@ -301,6 +301,10 @@ void GUI::update_current_recording() {
     int current_index = this->get_current_playlist_index();
 
     try {
+        if (current_index < 0) {
+            qDebug() << "current index less than 0";
+            return;
+        }
         qDebug() << QString::fromStdString(watchlist[current_index].get_title());
         service->set_current_recording(current_index);
     } catch (...) {
