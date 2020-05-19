@@ -15,12 +15,12 @@ GUI::GUI(Service* _service, QWidget *parent) :
     service->add("2", "2", "02-02-2002", "2", "2.mp2");
     service->add("3", "3", "03-03-2003", "3", "3.mp3");
     service->add("4", "4", "04-04-2004", "4", "4.mp4");
-    service->add("5", "5", "04-04-2004", "5", "5.mp4");
-    service->add("6", "6", "04-04-2004", "6", "6.mp4");
-    service->add("7", "7", "04-04-2004", "7", "7.mp4");
-    service->add("8", "8", "04-04-2004", "8", "8.mp4");
-    service->add("9", "9", "04-04-2004", "9", "9.mp4");
-    service->add("10", "10", "04-04-2004", "10", "10.mp4");
+    service->add("5", "5", "04-04-2005", "5", "5.mp4");
+    service->add("6", "6", "04-04-2006", "6", "6.mp4");
+    service->add("7", "7", "04-04-2007", "7", "7.mp4");
+    service->add("8", "8", "04-04-2008", "8", "8.mp4");
+    service->add("9", "9", "04-04-2009", "9", "9.mp4");
+    service->add("10", "10", "04-04-2010", "10", "10.mp4");
     this->add_recordings_to_list_widget();
 }
 
@@ -301,7 +301,8 @@ void GUI::update_current_recording() {
     int current_index = this->get_current_playlist_index();
 
     try {
-    qDebug() << QString::fromStdString(watchlist[current_index].get_title());
+        qDebug() << QString::fromStdString(watchlist[current_index].get_title());
+        service->set_current_recording(current_index);
     } catch (...) {
 
     }
