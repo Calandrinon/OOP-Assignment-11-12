@@ -315,6 +315,10 @@ void GUI::update_current_recording() {
 void GUI::next_recording_button_handler() { 
     int current_index = this->get_current_playlist_index();
 
+    if (playlist_widget->count() == 0) {
+        return;
+    }
+
     service->next();
     if (playlist_widget->count() == current_index + 1) {
         playlist_widget->setCurrentRow(0);
