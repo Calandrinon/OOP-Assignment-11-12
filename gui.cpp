@@ -184,7 +184,6 @@ void GUI::save_recording_button_handler() {
     string time_of_creation = this->time_of_creation_edit->text().toStdString();
     string times_accessed = this->times_accessed_edit->text().toStdString();
     string footage_preview = this->footage_preview_edit->text().toStdString();
-
     try {
         string message =  title + " " + location + " " + time_of_creation + " " + times_accessed + " " +footage_preview;
         service->save(title);
@@ -313,8 +312,9 @@ void GUI::update_current_recording() {
 }
 
 
-void GUI::next_recording_button_handler() {
+void GUI::next_recording_button_handler() { 
     int current_index = this->get_current_playlist_index();
+
     service->next();
     if (playlist_widget->count() == current_index + 1) {
         playlist_widget->setCurrentRow(0);
@@ -329,7 +329,12 @@ void GUI::play_recording_button_handler() {
         return;
     }
 
-    int current_index = this->get_current_playlist_index();
+    int current_index = service->get_selected_recording_index();
+    if (current_index == this->playlist_widget->count() - 1 && current_index != 0) {
+        service->set_selected_recording_index(current_index-1);
+    }
+
+    current_index = this->get_current_playlist_index();
     qDebug() << current_index;
     vector<Recording> watchlist = service->get_watchlist();
     service->remove_from_watchlist(current_index);

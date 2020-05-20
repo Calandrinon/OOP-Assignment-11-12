@@ -259,11 +259,6 @@ string FileRepository::next() {
 
 
 void FileRepository::save(string title) {
-    if (selected_recording >= number_of_elements) {
-        IndexError ie("IndexError: You haven't added any recordings!\n");
-        throw ie;
-    }
-
     string element;
     ifstream in(filename);
     unsigned int counter = 0;

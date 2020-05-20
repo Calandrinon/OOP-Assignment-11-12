@@ -31,5 +31,6 @@ class Service {
         void set_current_recording(int position);
         void remove_from_watchlist(int element_index);
         int get_selected_recording_index();
+        void set_selected_recording_index(int new_index);
         ~Service();
 };

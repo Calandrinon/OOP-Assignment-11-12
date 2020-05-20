@@ -24,6 +24,9 @@ class Repository {
         virtual int get_selected_recording_index() {
             return selected_recording;
         }
+        virtual void set_selected_recording_index(int new_index) {
+            selected_recording = new_index;
+        }
 };
 
 
