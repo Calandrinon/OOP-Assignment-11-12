@@ -118,7 +118,7 @@ vector<string> FileRepository::tokenize(std::string line, char delimiter) {
 
 
 void FileRepository::remove_from_watchlist(int element_index) {
-    watch_list.erase(watch_list.begin()+element_index);
+    watch_list.erase(watch_list.begin() + element_index);
 
     for (auto element: watch_list) {
         qDebug() << QString::fromStdString(element.get_as_string());

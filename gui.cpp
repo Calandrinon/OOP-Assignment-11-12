@@ -133,7 +133,6 @@ void GUI::add_recording_button_handler() {
 
     try {
         string message =  title + " " + location + " " + time_of_creation + " " + times_accessed + " " +footage_preview;
-        qDebug() << QString::fromStdString(message);
         service->add(title, location, time_of_creation, times_accessed, footage_preview);
     } catch (...) {
 
@@ -152,7 +151,6 @@ void GUI::update_recording_button_handler() {
 
     try {
         string message =  title + " " + location + " " + time_of_creation + " " + times_accessed + " " +footage_preview;
-        qDebug() << QString::fromStdString(message);
         service->update(title, location, time_of_creation, times_accessed, footage_preview);
     } catch (...) {
 
@@ -171,7 +169,6 @@ void GUI::delete_recording_button_handler() {
 
     try {
         string message =  title + " " + location + " " + time_of_creation + " " + times_accessed + " " +footage_preview;
-        qDebug() << QString::fromStdString(message);
         service->remove(title);
     } catch (...) {
 
@@ -190,7 +187,6 @@ void GUI::save_recording_button_handler() {
 
     try {
         string message =  title + " " + location + " " + time_of_creation + " " + times_accessed + " " +footage_preview;
-        qDebug() << QString::fromStdString(message);
         service->save(title);
     } catch (...) {
 
@@ -235,7 +231,7 @@ void GUI::add_recordings_to_playlist() {
     }
 
     if (this->playlist_widget->count() > 0) {
-        this->playlist_widget->setCurrentRow(0);
+        this->playlist_widget->setCurrentRow(service->get_selected_recording_index());
     }
 }
 
@@ -310,7 +306,6 @@ void GUI::update_current_recording() {
             qDebug() << "current index less than 0";
             return;
         }
-        qDebug() << QString::fromStdString(watchlist[current_index].get_title());
         service->set_current_recording(current_index);
     } catch (...) {
 
@@ -326,12 +321,16 @@ void GUI::next_recording_button_handler() {
     } else {
         playlist_widget->setCurrentRow(current_index+1);
     }
-    qDebug() << current_index;
 }
 
 
 void GUI::play_recording_button_handler() {
-    int current_index = this->get_current_index();
+    if (this->playlist_widget->count() == 0) {
+        return;
+    }
+
+    int current_index = this->get_current_playlist_index();
+    qDebug() << current_index;
     vector<Recording> watchlist = service->get_watchlist();
     service->remove_from_watchlist(current_index);
     add_recordings_to_playlist();

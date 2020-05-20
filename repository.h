@@ -19,8 +19,11 @@ class Repository {
         virtual string next() = 0;
         virtual void save(string title) = 0;
         virtual ~Repository() {}
-        virtual void set_current_recording(int position) {selected_recording = position;};
+        virtual void set_current_recording(int position) {selected_recording = position;}
         virtual void remove_from_watchlist(int element_index) = 0;
+        virtual int get_selected_recording_index() {
+            return selected_recording;
+        }
 };
 
 

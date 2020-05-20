@@ -125,6 +125,15 @@ void Service::update(string title, string location, string time_of_creation, str
 }
 
 
+int Service::get_selected_recording_index() {
+    if (!has_file_repository) {
+        return repository->get_selected_recording_index();
+    } else {
+        return file_repository->get_selected_recording_index();
+    }
+}
+
+
 string Service::next() {
     if (!has_file_repository)
 	    return repository->next();
