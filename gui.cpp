@@ -22,7 +22,10 @@ GUI::GUI(Service* _service, QWidget *parent) :
     service->add("9", "9", "04-04-2009", "9", "9.mp4");
     service->add("10", "10", "04-04-2010", "10", "10.mp4");
     this->add_recordings_to_list_widget();
-    service->set_watchlist_filename("myhtml.html");
+
+    if (service->does_service_have_file_repository()) {
+        service->set_watchlist_filename("myhtml.html");
+    }
 }
 
 

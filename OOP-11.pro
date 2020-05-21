@@ -33,7 +33,8 @@ SOURCES += \
     string_functions.cpp \
     tests.cpp \
     ui.cpp \
-    validator.cpp
+    validator.cpp \
+    dialog.cpp
 
 HEADERS += \
         gui.h \
@@ -44,10 +45,12 @@ HEADERS += \
     string_functions.h \
     tests.h \
     ui.h \
-    validator.h
+    validator.h \
+    dialog.h
 
 FORMS += \
-        gui.ui
+        gui.ui \
+    dialog.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
