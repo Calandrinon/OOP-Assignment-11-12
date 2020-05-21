@@ -24,9 +24,8 @@ int main(int argc, char *argv[])
     string line, repo_type="MemoryRepository";
 
     while (getline(in, line)) {
-        qDebug() << "wtf";
+        qDebug() << QString::fromStdString(line);
         if (line[0] == '#') {
-            qDebug() << QString::fromStdString(line);
             continue;
         } else {
             line = StringFunctions::strip(line);
@@ -39,6 +38,8 @@ int main(int argc, char *argv[])
             if (tokens[0] == "repo_type") {
                 repo_type = tokens[1];
             }
+
+            qDebug() << QString::fromStdString(line);
         }
     }
 
